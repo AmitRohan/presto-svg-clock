@@ -99,14 +99,22 @@ mapParam TranslateY	= "dy"
 svgTransform :: Transformation -> Vi -> SVGObject -> SVGObject
 svgTransform t v (SVGObject s) =  transform ( mapParam t) v (SVGObject s)
 
--- | Applies a Rotation Transformation ( pivot = center ) with a Value over and SVGObject and returns and instance of modified object.
+
+-- | Applies a Rotation Transformation ( pivot = by user ) with a Value over the SVGObject and returns an instance of the modified object.
+_rotateAt::Vi -> Number -> Number -> SVGObject -> SVGObject
+_rotateAt v cx cy s = do
+	rotateAt v cx cy s
+
+-- | Applies a Rotation Transformation ( pivot = center ) with a Value over the SVGObject and returns an instance of the modified object.
 rotateAtCenter::Vi -> SVGObject -> SVGObject
 rotateAtCenter v (SVGObject s) = rotateAt v fixX fixY (SVGObject s)
 	where
 		fixY = ( getValue $ getBaseValues $ s.y ) + heightFix
 		fixX = ( getValue $ getBaseValues $ s.x ) + widthFix
 		heightFix = ( getValue $ getBaseValues $ s.height ) / 2.0
-		widthFix = ( getValue $ getBaseValues $ s.width ) / 2.0		
+		widthFix = ( getValue $ getBaseValues $ s.width ) / 2.0	
+
+
 	
 -- | Helper functions for JS comunication
 derive instance genericIdi :: Generic (IDi) _

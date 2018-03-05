@@ -9,7 +9,7 @@ import Ester.Animation as Animation
 import DOM (DOM)
 import FRP (FRP)
 import FRP.Event.Time (animationFrame)
-import Prelude (Unit, bind, pure, unit, (*>), (<$>), (+), (/))
+import Prelude (Unit, bind, pure, unit, (*>), (<$>), (+), (/), (#), ($))
 import PrestoDOM.Core (PrestoDOM)
 import PrestoDOM.Elements (linearLayout)
 import PrestoDOM.Properties (id_, height, width, background)
@@ -57,14 +57,14 @@ eval state = do
   -- Update the clock time in the state
   let gt = state.gameTime + 1.0
   -- Get object references to SVG objects using the ID specified in GameBoard
-  let secondHand = Animation.getById (Animation.IDi "secondHand")
-  let minuteHand = Animation.getById (Animation.IDi "minuteHand")
-  let hourHand = Animation.getById (Animation.IDi "hourHand")
+  -- and rotate the Clock hands based on time
 
-  -- Rotate the Clock hands based on time
-  let animateSS = Animation.rotateAt (Animation.Vi gt) 100.0 100.0 secondHand
-  let animateMM = Animation.rotateAt (Animation.Vi (gt/60.0) ) 100.0 100.0 minuteHand
-  let animateHH = Animation.rotateAt (Animation.Vi (gt/3600.0) ) 100.0 100.0 hourHand
+  let animateSS = Animation.getById (Animation.IDi "secondHand")
+                    # Animation._rotateAt (Animation.Vi gt) 100.0 100.0
+  let animateMM = Animation.getById (Animation.IDi "minuteHand")
+                    # Animation.rotateAt (Animation.Vi (gt/60.0) ) 100.0 100.0
+  let animateHH = Animation.getById (Animation.IDi "hourHand")
+                    # Animation.rotateAt (Animation.Vi (gt/3600.0) ) 100.0 100.0
   
   -- Update the state variable and return it for next eval
   state { gameTime = gt }
