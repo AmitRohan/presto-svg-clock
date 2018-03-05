@@ -1,9 +1,6 @@
-module Ester where
-
-{- helper functions to render svg game objects and update them -}
+module Ester.Types where
 
 import Prelude 
-import Control.Monad.Eff (Eff)
 
 import Data.Foreign.Class (class Decode, class Encode)
 import Data.Foreign.Generic (defaultOptions, genericDecode, genericEncode)
@@ -11,8 +8,6 @@ import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 
 import FRP.Event (Event)
-
-foreign import logAny :: forall a. a -> Unit
 
 data SvgName = SvgName String
 derive instance genericSvgName :: Generic (SvgName) _
@@ -47,14 +42,12 @@ instance encodeGameObjectCache :: Encode GameObjectCache where
 instance decodeGameObjectCache :: Decode GameObjectCache where
   decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
 
-
-
-data NodeType = Rectangle | Circle | TextArea | Image | Path | Group | Oval
-derive instance genericNodeType :: Generic (NodeType) _
-instance showNodeType :: Show NodeType where show = genericShow
-instance encodeNodeType :: Encode NodeType where
+data SVGType = Rectangle | Circle | TextArea | Image | Path | Group | Oval
+derive instance genericSVGType :: Generic (SVGType) _
+instance showSVGType :: Show SVGType where show = genericShow
+instance encodeSVGType :: Encode SVGType where
   encode x = genericEncode (defaultOptions { unwrapSingleConstructors = true }) x
-instance decodeNodeType :: Decode NodeType where
+instance decodeSVGType :: Decode SVGType where
   decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
 
 data Property = Property { key :: String, value :: String }
@@ -81,12 +74,12 @@ instance encodeSpeed :: Encode Speed where
 instance decodeSpeed :: Decode Speed where
   decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
 
-data Node = Node { name :: String, nodeType :: String, props :: Array Property }
-derive instance genericNode :: Generic (Node) _
-instance showNode :: Show Node where show = genericShow
-instance encodeNode :: Encode Node where
+data SVG = SVG { name :: String, nodeType :: String, props :: Array Property }
+derive instance genericSVG :: Generic (SVG) _
+instance showSVG :: Show SVG where show = genericShow
+instance encodeSVG :: Encode SVG where
   encode x = genericEncode (defaultOptions { unwrapSingleConstructors = true }) x
-instance decodeNode :: Decode Node where
+instance decodeSVG :: Decode SVG where
   decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
 
 data GameBoard = GameBoard { id :: String, height :: Number, width :: Number}
@@ -98,20 +91,3 @@ instance decodeGameBoard :: Decode GameBoard where
   decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
 
 type Collision a = { xP :: String, xM :: String, yP :: String, yM :: String | a }
-foreign import initGameBoard :: forall eff . GameBoard -> Eff eff Unit
-foreign import clearGameBoard :: forall eff . Eff eff Unit
-foreign import getSvgNameCache :: forall eff . Eff eff SvgNameCache
-foreign import addGameObject :: forall eff . SvgName -> Node -> Eff eff Unit
-foreign import getGameObjectProps :: forall eff . SvgName -> Eff eff PropertyList
-foreign import detectCollision :: forall a c. a -> SvgName -> (Collision c)
-foreign import modifyGameObject :: forall eff . SvgName -> PropertyList -> Eff eff Unit
-foreign import removeGameObject :: forall eff . SvgName -> Eff eff Unit
-
-
-foreign import keyController :: Event { keyCode :: Int }
-foreign import joyStickPressController :: Event { keyCode :: Int }
-foreign import joyStickReleaseController :: Event { keyCode :: Int }
-
-getProp :: String -> String -> Property
-getProp k v = Property { key : k , value : v }
-
