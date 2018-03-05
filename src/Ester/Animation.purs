@@ -57,7 +57,7 @@ foreign import getById :: IDi -> SVGObject
 foreign import transform :: String -> Vi -> SVGObject -> SVGObject
 
 -- | Rotate SVGObject on a pivot point with an Angle
-foreign import rotateAt :: Vi -> Number -> Number -> Ti -> SVGObject -> SVGObject
+foreign import rotateAt :: Vi -> Number -> Number -> SVGObject -> SVGObject
 
 -- | Starts Stroke Animation on Path
 foreign import startPathAnimation :: SVGObject -> SVGObject
@@ -100,8 +100,8 @@ svgTransform :: Transformation -> Vi -> SVGObject -> SVGObject
 svgTransform t v (SVGObject s) =  transform ( mapParam t) v (SVGObject s)
 
 -- | Applies a Rotation Transformation ( pivot = center ) with a Value over and SVGObject and returns and instance of modified object.
-rotateAtCenter::Vi -> Ti -> SVGObject -> SVGObject
-rotateAtCenter v t (SVGObject s) = rotateAt v fixX fixY t (SVGObject s)
+rotateAtCenter::Vi -> SVGObject -> SVGObject
+rotateAtCenter v (SVGObject s) = rotateAt v fixX fixY (SVGObject s)
 	where
 		fixY = ( getValue $ getBaseValues $ s.y ) + heightFix
 		fixX = ( getValue $ getBaseValues $ s.x ) + widthFix

@@ -17,7 +17,7 @@ import PrestoDOM.Types
 import PrestoDOM.Util (render)
 
 -- | This layout is created using PrestorDom. We will be using this layout as base 
--- | to render our svg objects
+-- | to render our svg objects.
 gameBoard :: forall i p. GameState -> PrestoDOM i p
 gameBoard state = linearLayout
                     [ id_ "gameBoard"
@@ -33,10 +33,19 @@ gameBoard state = linearLayout
 -- | and start rendering the game
 main :: forall e. Eff (dom :: DOM, console :: CONSOLE, frp :: FRP | e) Unit
 main = do
+    -- Declare a init State for our Game , in this case our clock
     let initialState = GameConfig.initState
+
+    -- Render the Game Board with out initial state
     { stateBeh, updateState } <- render gameBoard initialState
+
+    -- Inititalise our Layout to render SVG. For now we are using layout with id "gameBoard"
     _ <- GameBoard.initBoard 
+
+    -- Add clock elements to our world
     _ <- GameBoard.addBaseWorld initialState
+
+    -- Update the clock based on State.
     updateState (eval <$> stateBeh) animationFrame *>
     pure unit
 
@@ -45,12 +54,18 @@ main = do
 -- | granted for us. And yes, this uses `window.requestAnimationFrame` under the hood.
 eval :: GameState -> GameState
 eval state = do
+  -- Update the clock time in the state
   let gt = state.gameTime + 1.0
+  -- Get object references to SVG objects using the ID specified in GameBoard
   let secondHand = Animation.getById (Animation.IDi "secondHand")
   let minuteHand = Animation.getById (Animation.IDi "minuteHand")
   let hourHand = Animation.getById (Animation.IDi "hourHand")
-  let animateSS = Animation.rotateAt (Animation.Vi gt) 100.0 100.0 (Animation.Ti 0.0) secondHand
-  let animateMM = Animation.rotateAt (Animation.Vi (gt/60.0) ) 100.0 100.0 (Animation.Ti 0.0) minuteHand
-  let animateHH = Animation.rotateAt (Animation.Vi (gt/3600.0) ) 100.0 100.0 (Animation.Ti 0.0) hourHand
+
+  -- Rotate the Clock hands based on time
+  let animateSS = Animation.rotateAt (Animation.Vi gt) 100.0 100.0 secondHand
+  let animateMM = Animation.rotateAt (Animation.Vi (gt/60.0) ) 100.0 100.0 minuteHand
+  let animateHH = Animation.rotateAt (Animation.Vi (gt/3600.0) ) 100.0 100.0 hourHand
+  
+  -- Update the state variable and return it for next eval
   state { gameTime = gt }
 

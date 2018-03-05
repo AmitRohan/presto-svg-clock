@@ -17,23 +17,22 @@ initBoard = Utils.initGameBoard ( GameBoard { id : "gameBoard", height : GameCon
 -- | This Function add base objects needed for the clock
 addBaseWorld :: forall t. GameState -> Eff t Unit
 addBaseWorld state = do
-	let boardWidth = GameConfig.boardWidth
-	let boardHeight = GameConfig.boardHeight
 	
-	-- Starting Cordinates are calculates using the length specified in the config
+	-- Calculates the starting cordinates of the clock hands using dimensions in state	
 	let sStart = state.clockDimen.cy - state.secondHandDimen.length
 	let mStart = state.clockDimen.cy - state.minuteHandDimen.length
 	let hStart = state.clockDimen.cy - state.hourHandDimen.length
 
+	-- Make a backgroud for our Game Board.
 	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "Background", nodeType : "Rectangle" , props : [ 
-	  height (toString boardHeight),
-	  width (toString boardWidth),
+	  height (toString GameConfig.boardHeight),
+	  width (toString GameConfig.boardWidth),
 	  x "0",
 	  y "0",
 	  fill "#90CAF9"
 	]})
 	 
-	-- Draws the Back of our watch 
+	-- Make a Circle for our watch using dimensions in config.
 	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "ClockBody", nodeType : "Circle" , props : [ 
 	  _id "bodyClock",
 	  cx ( toString state.clockDimen.cx ),
@@ -44,6 +43,7 @@ addBaseWorld state = do
 	  stroke_width "12px"
 	]}) 
 
+	-- Make a Line for the Hour Hand using dimensions in config.
 	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "Hourhand", nodeType : "Line" , props : [ 
 	  _id "hourHand",
 	  x1 ( toString state.clockDimen.cx ),
@@ -54,6 +54,7 @@ addBaseWorld state = do
 	  stroke_width ( toString state.hourHandDimen.width )
 	]}) 
 
+	-- Make a Line for the Minute Hand using dimensions in config.
 	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "MinuteHand", nodeType : "Line" , props : [ 
 	  _id "minuteHand",
 	  x1 ( toString state.clockDimen.cx ),
@@ -64,6 +65,7 @@ addBaseWorld state = do
 	  stroke_width ( toString state.minuteHandDimen.width )
 	]}) 
 
+	-- Make a Line for the Seconds Hand using dimensions in config.
 	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "SecondHand", nodeType : "Line" , props : [ 
 	  _id "secondHand",
 	  x1 ( toString state.clockDimen.cx ),
@@ -74,6 +76,7 @@ addBaseWorld state = do
 	  stroke_width ( toString state.secondHandDimen.width )
 	]}) 
 
+	-- Make a Circle for the Screw to hold the hands together.
 	Utils.addGameObject (SvgName "World") (SVG { name : "MidScrew", nodeType : "Circle" , props : [ 
 	  _id "midScrew",
 	  cx ( toString state.clockDimen.cx ),

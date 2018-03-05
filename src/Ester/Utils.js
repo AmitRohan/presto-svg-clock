@@ -18,7 +18,6 @@ exports.initGameBoard = function(gameBoard) {
       addInTagCache("World")
       GAME_OBJECT_LIST = [];
       addInGameObjectCache("World",DRAW,"root")
-      console.error(GAME_OBJECT_LIST)
   	}
 }
 
@@ -273,8 +272,6 @@ var isInTagCache = function (tag) {
 var addInTagCache = function (tag) {
 	if(!isInTagCache(tag))
 		GAME_OBJECT_TAG_LIST.push(tag)
-
-  console.log(GAME_OBJECT_TAG_LIST)
 }
 
 var addInGameObjectCache = function (_tag,gameObject,parentName) {
