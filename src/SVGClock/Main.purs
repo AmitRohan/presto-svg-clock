@@ -16,6 +16,8 @@ import PrestoDOM.Properties (id_, height, width, background)
 import PrestoDOM.Types 
 import PrestoDOM.Util (render)
 
+-- | This layout is created using PrestorDom. We will be using this layout as base 
+-- | to render our svg objects
 gameBoard :: forall i p. GameState -> PrestoDOM i p
 gameBoard state = linearLayout
                     [ id_ "gameBoard"
@@ -27,12 +29,14 @@ gameBoard state = linearLayout
                     ] 
 
 
--- | The entry point of the game. Here we initialize the state, create the entities, and starts rendering the game
+-- | The entry point of the game. Here we initialize the state, create the entities,
+-- | and start rendering the game
 main :: forall e. Eff (dom :: DOM, console :: CONSOLE, frp :: FRP | e) Unit
 main = do
-    { stateBeh, updateState } <- render gameBoard GameConfig.initState
-    _ <- GameBoard.initBoard
-    _ <- GameBoard.addBaseWorld
+    let initialState = GameConfig.initState
+    { stateBeh, updateState } <- render gameBoard initialState
+    _ <- GameBoard.initBoard 
+    _ <- GameBoard.addBaseWorld initialState
     updateState (eval <$> stateBeh) animationFrame *>
     pure unit
 

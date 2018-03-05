@@ -15,9 +15,10 @@ initState :: GameState
 initState =
   { 
     gameTime : 0.0 
-    , secondHandDimen : [ 10.0 , 1.0 ]
-    , minuteHandDimen : [ 7.0 , 1.0 ]
-    , hourHandDimen : [ 5.0 , 1.0 ]
+    , clockDimen : { radius : 80.0 , cx : 100.0 , cy : 100.0 }
+    , secondHandDimen 	: { length : 70.0 	, width : 3.0 }
+    , minuteHandDimen 	: { length : 60.0 	, width : 4.0 }
+    , hourHandDimen 	: { length : 45.0 	, width : 3.0 }
   }
 
 
