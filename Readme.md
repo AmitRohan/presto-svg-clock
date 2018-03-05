@@ -2,7 +2,7 @@
 
 PrestoDOM is a new in-development UI library written in PureScript language by Juspay Technologies Pvt. Ltd.
 
-This repository showcases the capabilities of the library by making a Box Chaser game that you can play with the keyboard.
+This repository showcases the capabilities of the library by making a SVG Clock.
 
 ![Screenshot](screenshot.gif)
 
@@ -14,7 +14,14 @@ https://amitrohan.github.io/presto-svg-clock/
 ## Cloning the repository
 
 ~~~sh
-$ git clone https://github.com/AmitRohan/presto-mario/
+$ git clone https://github.com/AmitRohan/presto-svg-clock/
+$ npm run setup
+~~~
+
+or 
+
+~~~sh
+$ git clone https://github.com/AmitRohan/presto-svg-clock/
 $ npm i
 $ bower i
 ~~~
@@ -37,11 +44,12 @@ $ npm run compile-js
 Now package everything in the dist directory and distribute.
 
 ## About	
-		
+	
 **Why SVG?**
+
 SVG has some advantages over conventional bitmapped graphics, such as JPEG, GIF, and PNG, used in the browser environment, because of several reasons:
 
-		1)	The files are generally much smaller than bitmaps, resulting in quicker download times.
+		1) The files are generally much smaller than bitmaps, resulting in quicker download times.
 		2) The graphics can be scaled to fit different display devices without the pixelation associated with enlarging bitmaps.
 		3) The graphics are constructed within the browser, reducing the server load and network response time generally associated with web imagery. That is, a typically small formulaic description is sent from the server to the client. The client then reconstructs the imagery based on the formulas it receives.
 		4) The end-user can interact with and change the graphics without need for complex and costly client-server communications.
