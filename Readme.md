@@ -14,7 +14,14 @@ https://amitrohan.github.io/presto-svg-clock/
 ## Cloning the repository
 
 ~~~sh
-$ git clone https://github.com/AmitRohan/presto-mario/
+$ git clone https://github.com/AmitRohan/presto-svg-clock/
+$ npm run setup
+~~~
+
+or 
+
+~~~sh
+$ git clone https://github.com/AmitRohan/presto-svg-clock/
 $ npm i
 $ bower i
 ~~~
