@@ -7,8 +7,6 @@ import Data.Foreign.Generic (defaultOptions, genericDecode, genericEncode)
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 
-import FRP.Event (Event)
-
 data SvgName = SvgName String
 derive instance genericSvgName :: Generic (SvgName) _
 instance showSvgName :: Show SvgName where show = genericShow
@@ -91,3 +89,7 @@ instance decodeGameBoard :: Decode GameBoard where
   decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
 
 type Collision a = { xP :: String, xM :: String, yP :: String, yM :: String | a }
+
+-- | Time Spent In The Game ( update acc to interval )
+type GameTime = Number
+type GameInterval = Number

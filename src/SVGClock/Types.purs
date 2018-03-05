@@ -1,9 +1,5 @@
 module SVGClock.Types where
 
--- Time Spent In The Game ( update acc to interval )
-type GameTime = Number
-type GameInterval = Number
-
 -- | [ Length , Width ] structuere 
 type Dimen = Array (Number)
 

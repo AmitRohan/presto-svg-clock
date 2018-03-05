@@ -9,9 +9,11 @@ import Ester.Utils as Utils
 import Ester.Props (_id, cx, cy, fill, height, radius, stroke, stroke_width, transform, width, x, x1, x2, y, y1, y2)
 import SVGClock.GameConfig as GameConfig
 
+-- | This Function enables a layout with id 'gameBoard' to draw SVG
 initBoard :: forall t. Eff t Unit
 initBoard = Utils.initGameBoard ( GameBoard { id : "gameBoard", height : GameConfig.boardHeight, width : GameConfig.boardWidth } )
 
+-- | This Function add base objects needed for the clock
 addBaseWorld :: forall t. Eff t Unit
 addBaseWorld = do
 	let boardWidth = GameConfig.boardWidth
