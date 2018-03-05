@@ -5,7 +5,6 @@ import SVGClock.GameBoard as GameBoard
 import SVGClock.Types (GameState)
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
-import Ester as Ester
 import Ester.Animation as Animation
 import DOM (DOM)
 import FRP (FRP)
@@ -43,7 +42,6 @@ main = do
 eval :: GameState -> GameState
 eval state = do
   let gt = state.gameTime + 1.0
-  let t = Ester.logAny "Lol"
   let secondHand = Animation.getById (Animation.IDi "secondHand")
   let minuteHand = Animation.getById (Animation.IDi "minuteHand")
   let hourHand = Animation.getById (Animation.IDi "hourHand")
