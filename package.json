@@ -1,7 +1,7 @@
 {
-  "name": "prestodom-breakout-demo",
+  "name": "presto-svg-clock",
   "version": "1.0.0",
-  "description": "A breakout game to show the capabilities of PrestoDOM library",
+  "description": "A Box Chaser arcade game to show the capabilities of PrestoDOM library",
   "scripts": {
     "compile-ps": "pulp build",
     "compile-js": "webpack --progress --colors --optimize-minimize",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sriharshachilakapati/prestodom-breakout-demo.git"
+    "url": "git+https://github.com/AmitRohan/presto-svg-clock.git"
   },
-  "author": "Sri Harsha Chilakapati",
+  "author": "Amit Rohan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sriharshachilakapati/prestodom-breakout-demo/issues"
+    "url": "https://github.com/AmitRohan/presto-svg-clock/issues"
   },
-  "homepage": "https://github.com/sriharshachilakapati/prestodom-breakout-demo#readme",
+  "homepage": "https://github.com/AmitRohan/presto-svg-clock#readme",
   "dependencies": {
     "presto-ui": "^0.3.4",
     "ramda": "^0.25.0"
