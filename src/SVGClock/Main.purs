@@ -12,8 +12,9 @@ import FRP (FRP)
 import FRP.Event.Time (animationFrame)
 import Prelude (Unit, bind, pure, unit, (*>), (<$>), (+), (/))
 import PrestoDOM.Core (PrestoDOM)
-import PrestoDOM.Elements  (linearLayout)
-import PrestoDOM.Properties (background)
+import PrestoDOM.Elements (linearLayout)
+import PrestoDOM.Properties (id_, height, width, background)
+import PrestoDOM.Types 
 import PrestoDOM.Util (render)
 
 gameBoard :: forall i p. GameState -> PrestoDOM i p
