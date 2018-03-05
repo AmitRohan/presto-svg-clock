@@ -1,6 +1,5 @@
 module SVGClock.Main where
 
-import SVGClock.GameUI as GameUI
 import SVGClock.GameConfig as GameConfig
 import SVGClock.GameBoard as GameBoard
 import SVGClock.Types (GameState)
@@ -17,10 +16,21 @@ import PrestoDOM.Elements  (linearLayout)
 import PrestoDOM.Properties (background)
 import PrestoDOM.Util (render)
 
+gameBoard :: forall i p. GameState -> PrestoDOM i p
+gameBoard state = linearLayout
+                    [ id_ "gameBoard"
+                    , height Match_Parent
+                    , width Match_Parent
+                    , background "#FFFFFF"
+                    ]
+                    [
+                    ] 
+
+
 -- | The entry point of the game. Here we initialize the state, create the entities, and starts rendering the game
 main :: forall e. Eff (dom :: DOM, console :: CONSOLE, frp :: FRP | e) Unit
 main = do
-    { stateBeh, updateState } <- render GameUI.windowScreen GameConfig.initState
+    { stateBeh, updateState } <- render gameBoard GameConfig.initState
     _ <- GameBoard.initBoard
     _ <- GameBoard.addBaseWorld
     updateState (eval <$> stateBeh) animationFrame *>
