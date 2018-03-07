@@ -11,6 +11,9 @@ height v = Property { key : "height" , value : v }
 width :: String -> Property
 width v = Property { key : "width" , value : v }
 
+d :: String -> Property
+d v = Property { key : "d" , value : v }
+
 x :: String -> Property
 x v = Property { key : "x" , value : v }
 

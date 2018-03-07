@@ -59,8 +59,8 @@ foreign import transform :: String -> Vi -> SVGObject -> SVGObject
 -- | Rotate SVGObject on a pivot point with an Angle
 foreign import rotateAt :: Vi -> Number -> Number -> SVGObject -> SVGObject
 
--- | Starts Stroke Animation on Path
-foreign import startPathAnimation :: SVGObject -> SVGObject
+-- | Starts Follow Animation on Path with a repeat count ( -1 = infinite)
+foreign import startFollowAnimation :: IDi -> Number-> SVGObject -> SVGObject
 
 -- | Function to log any data
 foreign import logAny :: forall a. a -> Unit
@@ -104,6 +104,11 @@ svgTransform t v (SVGObject s) =  transform ( mapParam t) v (SVGObject s)
 _rotateAt::Vi -> Number -> Number -> SVGObject -> SVGObject
 _rotateAt v cx cy s = do
 	rotateAt v cx cy s
+
+-- | Applies a Follow Animation with repeat count (-1 for infinite)
+_startFollowAnimation::IDi -> Number -> SVGObject -> SVGObject
+_startFollowAnimation i rc s = do
+	startFollowAnimation i rc s
 
 -- | Applies a Rotation Transformation ( pivot = center ) with a Value over the SVGObject and returns an instance of the modified object.
 rotateAtCenter::Vi -> SVGObject -> SVGObject

@@ -9,7 +9,7 @@ import Ester.Animation as Animation
 import DOM (DOM)
 import FRP (FRP)
 import FRP.Event.Time (animationFrame)
-import Prelude (Unit, bind, pure, unit, (*>), (<$>), (+), (/), (#), ($))
+import Prelude (Unit, bind, pure, unit, (*>), (<$>), (+), (/), (#), ($), negate)
 import PrestoDOM.Core (PrestoDOM)
 import PrestoDOM.Elements (linearLayout)
 import PrestoDOM.Properties (id_, height, width, background)
@@ -45,6 +45,9 @@ main = do
     -- Add clock elements to our world
     _ <- GameBoard.addBaseWorld initialState
 
+    let strartFollow = Animation.getById (Animation.IDi "bodyClock")
+                    # Animation._startFollowAnimation (Animation.IDi "pathToFollow") (negate 1.0)
+
     -- Update the clock based on State.
     updateState (eval <$> stateBeh) animationFrame *>
     pure unit
@@ -59,12 +62,12 @@ eval state = do
   -- Get object references to SVG objects using the ID specified in GameBoard
   -- and rotate the Clock hands based on time
 
-  let animateSS = Animation.getById (Animation.IDi "secondHand")
-                    # Animation._rotateAt (Animation.Vi gt) 100.0 100.0
-  let animateMM = Animation.getById (Animation.IDi "minuteHand")
-                    # Animation.rotateAt (Animation.Vi (gt/60.0) ) 100.0 100.0
-  let animateHH = Animation.getById (Animation.IDi "hourHand")
-                    # Animation.rotateAt (Animation.Vi (gt/3600.0) ) 100.0 100.0
+  -- let animateSS = Animation.getById (Animation.IDi "secondHand")
+  --                   # Animation._rotateAt (Animation.Vi gt) 100.0 100.0
+  -- let animateMM = Animation.getById (Animation.IDi "minuteHand")
+  --                   # Animation.rotateAt (Animation.Vi (gt/60.0) ) 100.0 100.0
+  -- let animateHH = Animation.getById (Animation.IDi "hourHand")
+  --                   # Animation.rotateAt (Animation.Vi (gt/3600.0) ) 100.0 100.0
   
   -- Update the state variable and return it for next eval
   state { gameTime = gt }

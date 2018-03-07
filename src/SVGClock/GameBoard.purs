@@ -6,7 +6,7 @@ import Control.Monad.Eff (Eff)
 import Data.Number.Format (toString)
 import Ester.Types (GameBoard(..), SVG(..), SvgName(..))
 import Ester.Utils as Utils
-import Ester.Props (_id, cx, cy, fill, height, radius, stroke, stroke_width, width, x, x1, x2, y, y1, y2)
+import Ester.Props (_id, d, cx, cy, fill, height, radius, stroke, stroke_width, width, x, x1, x2, y, y1, y2)
 import SVGClock.GameConfig as GameConfig
 import SVGClock.Types (GameState)
 
@@ -32,57 +32,24 @@ addBaseWorld state = do
 	  fill "#90CAF9"
 	]})
 	 
-	-- Make a Circle for our watch using dimensions in config.
-	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "ClockBody", nodeType : "Circle" , props : [ 
+	-- Hollow Path to follow
+	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "DropPath", nodeType : "Path" , props : [ 
+	  _id "pathToFollow",
+	  d "M10,90 C5,5 490,5 490,90 ",
+	  stroke "#123123",
+	  fill "none",
+	  stroke_width "2px"
+	]}) 
+
+	-- Make a Rectangle for our box using dimensions in config.
+	Utils.addGameObject (SvgName "World") (SVG { name : "ClockBody", nodeType : "Rectangle" , props : [ 
 	  _id "bodyClock",
-	  cx ( toString state.clockDimen.cx ),
-	  cy ( toString state.clockDimen.cy ),
-	  radius ( toString state.clockDimen.radius ),
+	  x ( toString 0.0 ),
+	  y ( toString 0.0 ),
+	  height ( toString state.clockDimen.radius ),
+	  width ( toString state.clockDimen.radius ),
 	  fill "#20B7AF",
 	  stroke "#FFFFFF",
-	  stroke_width "12px"
-	]}) 
-
-	-- Make a Line for the Hour Hand using dimensions in config.
-	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "Hourhand", nodeType : "Line" , props : [ 
-	  _id "hourHand",
-	  x1 ( toString state.clockDimen.cx ),
-	  y1 ( toString state.clockDimen.cy ),
-	  x2 ( toString state.clockDimen.cx ),
-	  y2 ( toString hStart ),
-	  stroke "#fffbf9",
-	  stroke_width ( toString state.hourHandDimen.width )
-	]}) 
-
-	-- Make a Line for the Minute Hand using dimensions in config.
-	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "MinuteHand", nodeType : "Line" , props : [ 
-	  _id "minuteHand",
-	  x1 ( toString state.clockDimen.cx ),
-	  y1 ( toString state.clockDimen.cy ),
-	  x2 ( toString state.clockDimen.cx ),
-	  y2 ( toString mStart ),
-	  stroke "#fffbf9",
-	  stroke_width ( toString state.minuteHandDimen.width )
-	]}) 
-
-	-- Make a Line for the Seconds Hand using dimensions in config.
-	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "SecondHand", nodeType : "Line" , props : [ 
-	  _id "secondHand",
-	  x1 ( toString state.clockDimen.cx ),
-	  y1 ( toString state.clockDimen.cy ),
-	  x2 ( toString state.clockDimen.cx ),
-	  y2 ( toString sStart ),
-	  stroke "#fffbf9",
-	  stroke_width ( toString state.secondHandDimen.width )
-	]}) 
-
-	-- Make a Circle for the Screw to hold the hands together.
-	Utils.addGameObject (SvgName "World") (SVG { name : "MidScrew", nodeType : "Circle" , props : [ 
-	  _id "midScrew",
-	  cx ( toString state.clockDimen.cx ),
-	  cy ( toString state.clockDimen.cy ),
-	  radius "3",
-	  fill "#128A86",
-	  stroke "#C1EFED",
 	  stroke_width "2px"
-	]})
+	]}) 
+

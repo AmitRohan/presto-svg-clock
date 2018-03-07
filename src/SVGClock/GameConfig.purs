@@ -4,11 +4,11 @@ import SVGClock.Types (GameState)
 
 -- | This fucntion returns the WIDTH of our GameBoard
 boardWidth :: Number
-boardWidth = 900.0
+boardWidth = 1100.0
 
 -- | This fucntion returns the HEIGHT of our GameBoard
 boardHeight :: Number
-boardHeight = 500.0
+boardHeight = 700.0
 
 -- | This fucntion creates and returns the dafult state
 initState :: GameState
