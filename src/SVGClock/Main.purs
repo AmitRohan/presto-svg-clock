@@ -5,7 +5,9 @@ import SVGClock.GameBoard as GameBoard
 import SVGClock.Types (GameState)
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
-import Ester.Animation as Animation
+import Ester.Utils 
+import Ester.Types 
+import Ester.Props 
 import DOM (DOM)
 import FRP (FRP)
 import FRP.Event.Time (animationFrame)
@@ -45,8 +47,8 @@ main = do
     -- Add clock elements to our world
     _ <- GameBoard.addBaseWorld initialState
 
-    let strartFollow = Animation.getById (Animation.IDi "bodyClock")
-                    # Animation._startFollowAnimation (Animation.IDi "pathToFollow") (negate 1.0)
+    let strartFollow = getById (IDi "bodyClock")
+                    # _startFollowAnimation (IDi "pathToFollow") (negate 1.0)
 
     -- Update the clock based on State.
     updateState (eval <$> stateBeh) animationFrame *>

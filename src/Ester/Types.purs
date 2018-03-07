@@ -6,6 +6,7 @@ import Data.Foreign.Class (class Decode, class Encode)
 import Data.Foreign.Generic (defaultOptions, genericDecode, genericEncode)
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
+import Data.Newtype (class Newtype)
 
 data SvgName = SvgName String
 derive instance genericSvgName :: Generic (SvgName) _
@@ -93,3 +94,80 @@ type Collision a = { xP :: String, xM :: String, yP :: String, yM :: String | a 
 -- | Time Spent In The Game ( update acc to interval )
 type GameTime = Number
 type GameInterval = Number
+
+
+
+-- | Base types for SVG Transformations
+data IDi = IDi String   -- ID
+data Vi = Vi Number   -- VALUE
+data Ti = Ti Number   -- TIME
+
+-- | Supported SVG Transformations
+data Transformation = Rotate 
+  | Scale 
+  | ScaleX 
+  | ScaleY 
+  | SkewX
+  | SkewY
+  | TranslateX
+  | TranslateY
+
+-- | Base structure of an SVG
+newtype SVGObject = SVGObject { 
+    x :: SVGAnimatedLength
+    , y :: SVGAnimatedLength
+    ,height :: SVGAnimatedLength
+    , width :: SVGAnimatedLength
+  }
+
+-- | Base structure of any parameter of SVG
+newtype SVGAnimatedLength = SVGAnimatedLength { 
+    animValue :: SVGLength
+    , baseVal :: SVGLength
+  }
+
+-- | Base structure of any value in SVG
+newtype SVGLength = SVGLength { 
+    unitType :: Number
+    , value :: Number
+    , valueAsString :: String 
+    , valueInSpecifiedUnits :: Number
+  }
+
+
+
+  
+-- | Helper functions for JS comunication
+derive instance genericIdi :: Generic (IDi) _
+derive instance genericVi :: Generic (Vi) _
+derive instance genericTi :: Generic (Ti) _
+derive instance genericTransformation :: Generic (Transformation) _
+
+derive instance genericSVGObject :: Newtype SVGObject _
+derive instance genericSVGAnimatedLength :: Newtype SVGAnimatedLength _
+derive instance genericSVGLength :: Newtype SVGLength _
+
+instance showIDi :: Show IDi where show = genericShow
+instance showVi :: Show Vi where show = genericShow
+instance showTi :: Show Ti where show = genericShow
+instance showTransformation :: Show Transformation where show = genericShow
+
+
+instance encodeIDi :: Encode IDi where
+  encode x = genericEncode (defaultOptions { unwrapSingleConstructors = true }) x
+instance encodeVi :: Encode Vi where
+  encode x = genericEncode (defaultOptions { unwrapSingleConstructors = true }) x
+instance encodeTi :: Encode Ti where
+  encode x = genericEncode (defaultOptions { unwrapSingleConstructors = true }) x
+instance encodeTransformation :: Encode Transformation where
+  encode x = genericEncode (defaultOptions { unwrapSingleConstructors = true }) x
+
+
+instance decodeIDi :: Decode IDi where
+  decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
+instance decodeVi :: Decode Vi where
+  decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x
+instance decodeTi :: Decode Ti where
+  decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x 
+instance decodeTransformation :: Decode Transformation where
+  decode x = genericDecode (defaultOptions { unwrapSingleConstructors = true }) x

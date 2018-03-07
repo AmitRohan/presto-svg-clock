@@ -33,13 +33,13 @@ addBaseWorld state = do
 	]})
 	 
 	-- Hollow Path to follow
-	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "DropPath", nodeType : "Path" , props : [ 
-	  _id "pathToFollow",
-	  d "M10,90 C5,5 490,5 490,90 ",
-	  stroke "#123123",
-	  fill "none",
-	  stroke_width "2px"
-	]}) 
+	-- _ <- Utils.addGameObject (SvgName "World") (SVG { name : "DropPath", nodeType : "Path" , props : [ 
+	--   _id "pathToFollow",
+	--   d "M10,90 C5,5 490,5 490,90 ",
+	--   stroke "#123123",
+	--   fill "none",
+	--   stroke_width "2px"
+	-- ]}) 
 
 	-- Make a Rectangle for our box using dimensions in config.
 	Utils.addGameObject (SvgName "World") (SVG { name : "ClockBody", nodeType : "Rectangle" , props : [ 
