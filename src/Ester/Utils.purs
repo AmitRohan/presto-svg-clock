@@ -4,6 +4,7 @@ module Ester.Utils where
 
 import Prelude 
 import Prelude (Unit, ($), (+), (/))
+import Data.Number.Format (toString)
 import FRP.Event (Event)
 import Ester.Types (Collision, GameBoard, IDi, Property(..), PropertyList, SVG, SVGAnimatedLength(..), SVGLength(..), SVGObject(..), SvgName, SvgNameCache, Transformation(..), Vi)
 import Control.Monad.Eff (Eff)
@@ -36,7 +37,7 @@ foreign import transform :: String -> Vi -> SVGObject -> SVGObject
 foreign import rotateAt :: Vi -> Number -> Number -> SVGObject -> SVGObject
 
 -- | Starts Follow Animation on Path with a repeat count ( -1 = infinite)
-foreign import startFollowAnimation :: IDi -> Number-> SVGObject -> SVGObject
+foreign import _followPath :: String -> Number-> SVGObject -> SVGObject
 
 -- | Function to log any data
 foreign import logAny :: forall a. a -> Unit
@@ -81,11 +82,6 @@ _rotateAt::Vi -> Number -> Number -> SVGObject -> SVGObject
 _rotateAt v cx cy s = do
 	rotateAt v cx cy s
 
--- | Applies a Follow Animation with repeat count (-1 for infinite)
-_startFollowAnimation::IDi -> Number -> SVGObject -> SVGObject
-_startFollowAnimation i rc s = do
-	startFollowAnimation i rc s
-
 -- | Applies a Rotation Transformation ( pivot = center ) with a Value over the SVGObject and returns an instance of the modified object.
 rotateAtCenter::Vi -> SVGObject -> SVGObject
 rotateAtCenter v (SVGObject s) = rotateAt v fixX fixY (SVGObject s)
@@ -96,3 +92,43 @@ rotateAtCenter v (SVGObject s) = rotateAt v fixX fixY (SVGObject s)
 		widthFix = ( getValue $ getBaseValues $ s.width ) / 2.0	
 
 
+-- | For repeat count in follow Path
+forever::Number
+forever = negate 1.0
+
+-- | Calculates a path for jump with a force in number
+getJumpPath:: SVGObject -> Number -> String
+getJumpPath (SVGObject s) jumpForce = "M" <> (toString _x1) <> "," <> (toString _y1) <> " " <> (toString _x1) <> "," <> (toString _y2) <> " z"
+	where
+		_y2 = _y1 - jumpForce
+		_y1 = ( getValue $ getBaseValues $ s.y )
+		_x1 = ( getValue $ getBaseValues $ s.x ) 
+
+-- | Calculates a path for jump with a force in number
+getVOsciPath:: SVGObject -> Number -> String
+getVOsciPath (SVGObject s) maxAmp = "M" 
+	<> (toString _x) <> "," <> (toString _y1) <> " " 
+	<> (toString _x) <> "," <> (toString _y2) <> " " 
+	<> (toString _x) <> "," <> (toString _y3) <> " " 
+	<> (toString _x) <> "," <> (toString _y4) <> " " 
+	<> (toString _x) <> "," <> (toString _y5) <> " " 
+	<> (toString _x) <> "," <> (toString _y4) <> " " 
+	<> (toString _x) <> "," <> (toString _y3) <> " " 
+	<> (toString _x) <> "," <> (toString _y2) 
+	<> " z"
+		where
+			_y5 = _y1 - maxAmp
+
+			_y4 = _y2 + ( 0.5 * maxAmp)
+			_y3 = _y1 - ( 0.5 * maxAmp)
+
+			_y2 = _y1 - ( 2.0 * maxAmp)
+			_y1 = ( getValue $ getBaseValues $ s.y ) + maxAmp
+			
+			_x = ( getValue $ getBaseValues $ s.x ) 
+
+
+-- | Takes a Path to follow , Count ( forver for always running ) and an SVG OBJECT
+followPath:: String -> Number -> SVGObject -> SVGObject
+followPath path count s = do
+	_followPath path count s

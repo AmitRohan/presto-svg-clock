@@ -323,6 +323,8 @@ function move(el, path, l,repeatCount) {
       n += 2
       if(repeatCount == -1 || motionCount < repeatCount)
         requestAnimationFrame(anim)
+      else
+        path.remove()
     }
   }
 
@@ -340,22 +342,17 @@ exports.rotateAt = function(value) {
   }
 }
 
-exports.startFollowAnimation = function(idToFollow) {
+exports._followPath = function(path) {
   return function (repeatCount) {
       return function(svgObj) {
-      idToFollow= idToFollow.value0;
       if(svgObj){
-        var path = document.getElementById(idToFollow);
-        // if(path == undefined )
-        // {
-          path = GAME_OBJECT_LIST[0].elem.path("M10,90 C5,5 490,5 490,90").attr({
-            'x' : '50',
-            'y' : '50',
-            'fill' : 'none',
-            'stroke' : 'none'
-          })
-          path=path.node
-        // }
+        path = GAME_OBJECT_LIST[0].elem.path(path).attr({
+          'x' : '0',
+          'y' : '0',
+          'fill' : 'none',
+          'stroke' : 'none'
+        })
+        path=path.node
         var l = path.getTotalLength()
         requestAnimationFrame(move(svgObj, path, l, repeatCount))
       }
