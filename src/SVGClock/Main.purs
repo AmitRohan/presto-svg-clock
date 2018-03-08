@@ -48,7 +48,8 @@ main = do
     _ <- GameBoard.addBaseWorld initialState
 
     let strartFollow = getById (IDi "bodyClock")
-                    # _startFollowAnimation (IDi "pathToFollow") (negate 1.0)
+                    # followPath jumpPath forever
+                      where jumpPath = getJumpPath ( getById (IDi "bodyClock") ) 50.0
 
     -- Update the clock based on State.
     updateState (eval <$> stateBeh) animationFrame *>
