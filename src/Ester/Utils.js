@@ -346,6 +346,7 @@ exports._followPath = function(path) {
   return function (repeatCount) {
       return function(svgObj) {
       if(svgObj){
+        console.log(path)
         path = GAME_OBJECT_LIST[0].elem.path(path).attr({
           'x' : '0',
           'y' : '0',

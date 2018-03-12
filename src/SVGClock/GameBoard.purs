@@ -1,6 +1,6 @@
 module SVGClock.GameBoard where
 
-import Prelude (Unit, bind, (-))
+import Prelude (Unit, bind, (-), (+))
 
 import Control.Monad.Eff (Eff)
 import Data.Number.Format (toString)
@@ -30,6 +30,14 @@ addBaseWorld state = do
 	  x "0",
 	  y "0",
 	  fill "#90CAF9"
+	]})
+
+	_ <- Utils.addGameObject (SvgName "World") (SVG { name : "Ground", nodeType : "Rectangle" , props : [ 
+	  height (toString GameConfig.boardHeight),
+	  width (toString GameConfig.boardWidth),
+	  x "0",
+	  y ( toString ( state.clockDimen.radius + 60.0 )),
+	  fill "#ff0066"
 	]})
 	 
 	-- Make a Rectangle for our box using dimensions in config.
